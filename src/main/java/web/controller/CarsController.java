@@ -5,22 +5,22 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import web.service.CarServiceImpl;
+import web.service.UserServiceImpl;
 
 @Controller
 public class CarsController {
 
-    private final CarServiceImpl carService;
+    private final UserServiceImpl carService;
 
     @Autowired
-    public CarsController(CarServiceImpl carService) {
+    public CarsController(UserServiceImpl carService) {
         this.carService = carService;
     }
 
-    @GetMapping(value = "/cars")
+    @GetMapping(value = "/")
     public String printCars(@RequestParam(value = "count", required = false, defaultValue = "-1") int count, ModelMap model) {
         model.addAttribute("cars", (count < 0) ? carService.getCars() : carService.getNCars(count));
-        return "cars";
+        return "index";
 
     }
 }
