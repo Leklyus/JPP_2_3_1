@@ -1,33 +1,39 @@
 package web.service;
 
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import web.dao.UserDao;
 import web.model.User;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Component
+@Service
 public class UserServiceImpl implements UserService {
-    private List<User> users;
+
+    @Autowired
+    private UserDao userDao;
 
     {
-        users = new ArrayList<>();
 
-        users.add(new User(1, "Ivan", "Andreev"));
-        users.add(new User(2, "Petr", "Bokov"));
-        users.add(new User(3, "Semen", "Ligotov"));
+//        users.add(new User("Ivan", "Andreev", (byte) 23));
+//        users.add(new User("Petr", "Bokov", (byte) 34));
+//        users.add(new User("Andrey", "Ligotov", (byte) 25));
+
+        save(new User("User", "Customer", (byte) 25));
 
     }
 
+    @Transactional
     @Override
-    public List<User> getCars() {
-        return users;
+    public void save(User user) {
+        userDao.save(user);
     }
 
+    @Transactional(readOnly = true)
     @Override
-    public List<User> getNCars(int count) {
-        return users.stream().limit(count).collect(Collectors.toList());
+    public List<User> getUsers() {
+        return userDao.getUsers();
     }
 
 }

@@ -5,7 +5,9 @@ import web.model.User;
 import java.util.List;
 
 public interface UserService {
-    public List<User> getCars();
 
-    public List<User> getNCars(int count);
+    void save(User user);
+
+    public List<User> getUsers();
+
 }
