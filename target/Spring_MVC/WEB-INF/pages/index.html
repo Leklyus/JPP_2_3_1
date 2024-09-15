@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>Пользователи</title>
@@ -8,6 +8,9 @@
 <body>
 <div>
     <h1>Список пользователей:</h1>
+    <a href="/new">Добавить</a>
+    <br/>
+    <hr/>
     <table>
         <tr>
             <th>ID</th>
@@ -20,9 +23,11 @@
             <td th:text="${user.name}"></td>
             <td th:text="${user.surname}"></td>
             <td th:text="${user.age}"></td>
+            <td><a th:href="@{/edit?id={id}(id=${user.id})}">Edit</a></td>
             <td>
-                <a th:href="@{/index?id={id}(id=${user.id})}">Edit</a>
-<!--                <a th:href="@{/index/{id}(id=${user.id})}">Edit</a>-->
+                <form th:method="DELETE" th:action="@{/delete?id={id}(id=${user.id})}">
+                    <input type="submit" value="Delete"/>
+                </form>
             </td>
         </tr>
     </table>

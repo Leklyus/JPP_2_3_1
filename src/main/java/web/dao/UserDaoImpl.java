@@ -17,7 +17,7 @@ public class UserDaoImpl implements UserDao {
 
 
     @Transactional
-    public void save(User user) {
+    public void saveUser(User user) {
         entityManager.persist(user);
     }
 
@@ -28,12 +28,28 @@ public class UserDaoImpl implements UserDao {
         return query.getResultList();
     }
 
-//    @Override
-//    @SuppressWarnings("unchecked")
-//    public List<User> getUser(Long id) {
-//        Query query = entityManager.createQuery("from User where id=:id");
-//        query.setParameter("id", id);
-//        return query.getResultList();
-//    }
+    @Override
+    @SuppressWarnings("unchecked")
+    public User getUser(Long id) {
+        return entityManager.find(User.class, id);
+    }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    public void updateUser(Long id, User user) {
+        User userUpdate = getUser(id);
+        userUpdate.setAge(user.getAge());
+        userUpdate.setName(user.getName());
+        userUpdate.setSurname(user.getSurname());
+        entityManager.merge(userUpdate);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public void deleteUser(Long id) {
+        User user = getUser(id);
+        if (user != null) {
+            entityManager.remove(user);
+        }
+    }
 }

@@ -3,8 +3,8 @@ package web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import web.models.User;
 import web.service.UserService;
 
 @Controller
@@ -23,17 +23,35 @@ public class UsersController {
         return "index";
     }
 
-//    @GetMapping("/{id}")
-//    public String showUser(@RequestParam(value = "id") Long id, ModelMap model) {
-//        model.addAttribute("users", userService.getUser(id));
-//        return "index";
-//    }
+    @GetMapping(value = "/new")
+    public String newUser(ModelMap model) {
+        model.addAttribute("user", new User());
+        return "new";
+    }
 
-//    @GetMapping(value = "/delete")
-//    public String deleteUser(@RequestParam(value = "id") Long id, ModelMap model) {
-//
-//        model.addAttribute("users", userService.getUsers());
-//        System.out.println("id: " + id);
-//        return "index";
-//    }
+    @PostMapping()
+    public String create(@ModelAttribute("user") User user) {
+        userService.saveUser(user);
+        return "redirect:/";
+    }
+
+    @GetMapping("/edit")
+    public String edit(@RequestParam(value = "id") Long id, ModelMap model) {
+        model.addAttribute("user", userService.getUser(id));
+        return "/edit";
+    }
+
+    @PatchMapping("/edit")
+    public String update(@RequestParam(value = "id") Long id, @ModelAttribute("user") User user) {
+        userService.updateUser(id, user);
+        return "redirect:/";
+
+    }
+
+    @DeleteMapping("/delete")
+    public String deleteUser(@RequestParam(value = "id") Long id) {
+
+        userService.deleteUser(id);
+        return "redirect:/";
+    }
 }

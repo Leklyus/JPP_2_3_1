@@ -14,14 +14,10 @@ public class UserServiceImpl implements UserService {
     @Autowired(required = false)
     private UserDao userDao;
 
-//    public UserServiceImpl(UserDao userDao) {
-//        this.userDao = userDao;
-//    }
-
     @Transactional
     @Override
-    public void save(User user) {
-        userDao.save(user);
+    public void saveUser(User user) {
+        userDao.saveUser(user);
     }
 
     @Transactional(readOnly = true)
@@ -30,10 +26,21 @@ public class UserServiceImpl implements UserService {
         return userDao.getUsers();
     }
 
-//    @Transactional(readOnly = true)
-//    @Override
-//    public List<User> getUser(Long id) {
-//        return userDao.getUser(id);
-//    }
+    @Transactional(readOnly = true)
+    @Override
+    public User getUser(Long id) {
+        return userDao.getUser(id);
+    }
 
+    @Transactional
+    @Override
+    public void updateUser(Long id, User user) {
+        userDao.updateUser(id, user);
+    }
+
+    @Transactional
+    @Override
+    public void deleteUser(Long id) {
+        userDao.deleteUser(id);
+    }
 }
