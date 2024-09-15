@@ -1,29 +1,20 @@
 package web.dao;
 
 import org.springframework.stereotype.Controller;
-import web.model.User;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import web.models.User;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.util.List;
 
 @Controller
 public class UserDaoImpl implements UserDao {
 
-    //    @Autowired
-//    private SessionFactory sessionFactory;
-    @Autowired
+    @PersistenceContext
     private EntityManager entityManager;
 
-//    @Override
-//    public void add(User user) {
-////        sessionFactory.getCurrentSession().save(user);
-//        entityManager.persist(user);
-//    }
 
     @Transactional
     public void save(User user) {
@@ -33,9 +24,16 @@ public class UserDaoImpl implements UserDao {
     @Override
     @SuppressWarnings("unchecked")
     public List<User> getUsers() {
-//        TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery("from User");
-//        return query.getResultList();
-        return null;
+        Query query = entityManager.createQuery("from User", User.class);
+        return query.getResultList();
     }
+
+//    @Override
+//    @SuppressWarnings("unchecked")
+//    public List<User> getUser(Long id) {
+//        Query query = entityManager.createQuery("from User where id=:id");
+//        query.setParameter("id", id);
+//        return query.getResultList();
+//    }
 
 }

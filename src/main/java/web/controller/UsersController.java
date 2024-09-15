@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import web.service.UserService;
 
 @Controller
@@ -19,10 +18,22 @@ public class UsersController {
     }
 
     @GetMapping(value = "/")
-    public String printUsers(ModelMap model) {
-        model.addAttribute("users", null);
-//        model.addAttribute("users", userService.getUsers());
+    public String getUsers(ModelMap model) {
+        model.addAttribute("users", userService.getUsers());
         return "index";
-
     }
+
+//    @GetMapping("/{id}")
+//    public String showUser(@RequestParam(value = "id") Long id, ModelMap model) {
+//        model.addAttribute("users", userService.getUser(id));
+//        return "index";
+//    }
+
+//    @GetMapping(value = "/delete")
+//    public String deleteUser(@RequestParam(value = "id") Long id, ModelMap model) {
+//
+//        model.addAttribute("users", userService.getUsers());
+//        System.out.println("id: " + id);
+//        return "index";
+//    }
 }
