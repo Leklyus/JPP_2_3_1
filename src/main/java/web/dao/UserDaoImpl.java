@@ -5,7 +5,7 @@ import web.models.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -22,20 +22,17 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public List<User> getUsers() {
-        Query query = entityManager.createQuery("from User", User.class);
+        TypedQuery<User> query = entityManager.createQuery("from User", User.class);
         return query.getResultList();
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public User getUser(Long id) {
         return entityManager.find(User.class, id);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void updateUser(Long id, User user) {
         User userUpdate = getUser(id);
         userUpdate.setAge(user.getAge());
@@ -45,7 +42,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void deleteUser(Long id) {
         User user = getUser(id);
         if (user != null) {
